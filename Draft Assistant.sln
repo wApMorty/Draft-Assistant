@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Draft Assistant", "Draft Assistant\Draft Assistant.csproj", "{269DAA7F-F6F7-47AE-941F-4C2B3FFCBA7D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{269DAA7F-F6F7-47AE-941F-4C2B3FFCBA7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{269DAA7F-F6F7-47AE-941F-4C2B3FFCBA7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{269DAA7F-F6F7-47AE-941F-4C2B3FFCBA7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{269DAA7F-F6F7-47AE-941F-4C2B3FFCBA7D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D8CCCDE9-BD99-4113-8166-1B9C96D9623D}
+	EndGlobalSection
+EndGlobal
