@@ -10,6 +10,7 @@ namespace Draft_Assistant
     {
 
         public string Name { get; set; }
+        #region Link Name -> ID
         public int Number {
             get
             {
@@ -159,6 +160,26 @@ namespace Draft_Assistant
                     default: return 999;
                 }
             }
+        }
+        #endregion
+        public double[] AllyWinrate;
+        public double[] EnemyWinrate;
+
+        public Champion(string n)
+        {
+            this.Name = n;
+            AllyWinrate = new double[141];
+            EnemyWinrate = new double[141];
+            for (int i = 0; i<141; i++)
+            {
+                AllyWinrate[i] = 0;
+                EnemyWinrate[i] = 0;
+            }
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
         }
 
     }
