@@ -91,19 +91,105 @@ namespace Draft_Assistant
             #region Gestion des bans
             string bans = Console.ReadLine();
             string[] banList = bans.Split(',');
-            List<Champion> unplayableChamps = new List<Champion>();
+            List<Champion> playableChamps = champions.ToList();
             for (int i = 0; i < banList.Length; i++)
             {
-                unplayableChamps.Add(champions.SingleOrDefault(item => item.Name == banList[i])); 
+                playableChamps.Remove(champions.SingleOrDefault(item => item.Name == banList[i])); 
             }
+            List<Champion> compoAlliee = new List<Champion>();
+            List<Champion> compoEnnemie = new List<Champion>();
             #endregion
             switch (input)
             {
                 case 1:
-                    
+                    playableChamps.Sort((a, b) => a.GetWinrate().CompareTo(b.GetWinrate()));
+                    playableChamps.Reverse();
+                    Console.WriteLine("Pour l'instant, le meilleur pick serait : " + playableChamps[0]);
+                    Console.WriteLine("Qu'avez-vous pick ?");
+                    Champion allie1 = playableChamps.SingleOrDefault(item => item.Name == Console.ReadLine());
+                    compoAlliee.Add(allie1);
+                    playableChamps.Remove(allie1);
+                    Console.WriteLine("Quels sont les picks adverses ?");
+                    string[] picks = Console.ReadLine().Split(',');
+                    Champion ennemi1 = playableChamps.SingleOrDefault(item => item.Name == picks[0]);
+                    Champion ennemi2 = playableChamps.SingleOrDefault(item => item.Name == picks[1]);
+                    compoEnnemie.Add(ennemi1);
+                    compoEnnemie.Add(ennemi2);
+                    playableChamps.Remove(ennemi1);
+                    playableChamps.Remove(ennemi2);
+                    playableChamps.Sort((a, b) => a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
+                    playableChamps.Reverse();
+                    Console.WriteLine("Dans ces conditions, je vous conseille de pick " + playableChamps[0] + " et " + playableChamps[1]);
+                    Console.WriteLine("Qu'avez-vous pick ?");
+                    picks = Console.ReadLine().Split(',');
+                    Champion allie2 = playableChamps.SingleOrDefault(item => item.Name == picks[0]);
+                    Champion allie3 = playableChamps.SingleOrDefault(item => item.Name == picks[1]);
+                    compoAlliee.Add(allie2);
+                    compoAlliee.Add(allie3);
+                    playableChamps.Remove(allie2);
+                    playableChamps.Remove(allie3);
+                    Console.WriteLine("Quels sont les picks adverses ?");
+                    picks = Console.ReadLine().Split(',');
+                    Champion ennemi3 = playableChamps.SingleOrDefault(item => item.Name == picks[0]);
+                    Champion ennemi4 = playableChamps.SingleOrDefault(item => item.Name == picks[1]);
+                    compoEnnemie.Add(ennemi3);
+                    compoEnnemie.Add(ennemi4);
+                    playableChamps.Remove(ennemi3);
+                    playableChamps.Remove(ennemi4);
+                    playableChamps.Sort((a, b) => a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
+                    playableChamps.Reverse();
+                    Console.WriteLine("Pour finir, je pense que vous devriez pick " + playableChamps[0] + " et " + playableChamps[1]);
+                    Thread.Sleep(TimeSpan.FromSeconds(20));
+                    HomeMenu();
                     break;
                 case 2:
-
+                    Console.WriteLine("Quel est le premier pick adverse ?");
+                    ennemi1 = playableChamps.SingleOrDefault(item => item.Name == Console.ReadLine());
+                    compoEnnemie.Add(ennemi1);
+                    playableChamps.Remove(ennemi1);
+                    playableChamps.Sort((a, b) => a.GetWinrateAgainst(compoEnnemie).CompareTo(b.GetWinrateAgainst(compoEnnemie)));
+                    playableChamps.Reverse();
+                    Console.WriteLine("Dans ces conditions, je vous conseille de pick " + playableChamps[0] + " et " + playableChamps[1]);
+                    Console.WriteLine("Qu'avez-vous pick ?");
+                    picks = Console.ReadLine().Split(',');
+                    allie1 = playableChamps.SingleOrDefault(item => item.Name == picks[0]);
+                    allie2 = playableChamps.SingleOrDefault(item => item.Name == picks[1]);
+                    compoAlliee.Add(allie1);
+                    compoAlliee.Add(allie2);
+                    playableChamps.Remove(allie1);
+                    playableChamps.Remove(allie2);
+                    Console.WriteLine("Quels sont les picks adverses ?");
+                    picks = Console.ReadLine().Split(',');
+                    ennemi2 = playableChamps.SingleOrDefault(item => item.Name == picks[0]);
+                    ennemi3 = playableChamps.SingleOrDefault(item => item.Name == picks[1]);
+                    compoEnnemie.Add(ennemi2);
+                    compoEnnemie.Add(ennemi3);
+                    playableChamps.Remove(ennemi2);
+                    playableChamps.Remove(ennemi3);
+                    playableChamps.Sort((a, b) => a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
+                    playableChamps.Reverse();
+                    Console.WriteLine("Dans ces conditions, je vous conseille de pick " + playableChamps[0] + " et " + playableChamps[1]);
+                    Console.WriteLine("Qu'avez-vous pick ?");
+                    picks = Console.ReadLine().Split(',');
+                    allie3 = playableChamps.SingleOrDefault(item => item.Name == picks[0]);
+                    Champion allie4 = playableChamps.SingleOrDefault(item => item.Name == picks[1]);
+                    compoAlliee.Add(allie3);
+                    compoAlliee.Add(allie4);
+                    playableChamps.Remove(allie3);
+                    playableChamps.Remove(allie4);
+                    Console.WriteLine("Quels sont les picks adverses ?");
+                    picks = Console.ReadLine().Split(',');
+                    ennemi4 = playableChamps.SingleOrDefault(item => item.Name == picks[0]);
+                    Champion ennemi5 = playableChamps.SingleOrDefault(item => item.Name == picks[1]);
+                    compoEnnemie.Add(ennemi4);
+                    compoEnnemie.Add(ennemi5);
+                    playableChamps.Remove(ennemi4);
+                    playableChamps.Remove(ennemi5);
+                    playableChamps.Sort((a, b) => a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
+                    playableChamps.Reverse();
+                    Console.WriteLine("Dans ces conditions, je vous conseille de pick " + playableChamps[0]);
+                    Thread.Sleep(TimeSpan.FromSeconds(20));
+                    HomeMenu();
                     break;
                 case 0:
                     HomeMenu();
