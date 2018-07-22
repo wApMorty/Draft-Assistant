@@ -15,7 +15,7 @@ namespace Draft_Assistant
         public static void HomeMenu()
         {
             Console.Clear();
-            Console.WriteLine("/t Bienvenue dans League Draft Assistant !");
+            Console.WriteLine("\t Bienvenue dans League Draft Assistant !");
             Console.WriteLine("Que souhaitez-vous faire ?");
             Console.WriteLine("0. Reinitialiser toutes les donnees !");
             Console.WriteLine("1. Saisir les résultats des derniers matchs LCS !");
@@ -23,7 +23,9 @@ namespace Draft_Assistant
             int input = int.Parse(Console.ReadLine());
             switch (input)
             {
-                case 0: Initializer.Initialize();
+                case 0:
+                    Initializer.Initialize();
+                    HomeMenu();
                     break;
                 case 1: InputData();
                     break;
