@@ -82,7 +82,33 @@ namespace Draft_Assistant
 
         public static void Draft()
         {
+            Console.Clear();
+            Champion[] champions = JsonConvert.DeserializeObject<Champion[]>(File.ReadAllText(@"D:\Paul\Documents\Visual Studio workspace\Draft Assistant 3rd try\Draft Assistant\Draft Assistant\Database.JSON"));
+            Console.WriteLine("Draftez-vous en 1er ou en 2eme ?");
+            Console.WriteLine("Sélectionnez 0 pour retourner au menu principal");
+            int input = int.Parse(Console.ReadLine());
+            Console.WriteLine("Quels sont les bans ? (séparez chaque ban par une virgule, sans espace)");
+            #region Gestion des bans
+            string bans = Console.ReadLine();
+            string[] banList = bans.Split(',');
+            List<Champion> unplayableChamps = new List<Champion>();
+            for (int i = 0; i < banList.Length; i++)
+            {
+                unplayableChamps.Add(champions.SingleOrDefault(item => item.Name == banList[i])); 
+            }
+            #endregion
+            switch (input)
+            {
+                case 1:
+                    
+                    break;
+                case 2:
 
+                    break;
+                case 0:
+                    HomeMenu();
+                    break;
+            }
         }
 
     }
