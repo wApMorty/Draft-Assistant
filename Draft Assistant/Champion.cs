@@ -184,6 +184,7 @@ namespace Draft_Assistant
             return this.Name;
         }
 
+        #region Methodes de calcul des winrates
         public double GetWinrate()
         {
             int totalWins = 0;
@@ -195,6 +196,34 @@ namespace Draft_Assistant
             }
             return totalWins / totalLoss;
         }
+
+        public double GetWinrateWith(Champion[] compo)
+        {
+            int totalWins = 0;
+            int totalLoss = 0;
+            foreach (Champion champ in compo)
+            {
+                totalWins += AllyWinrate[champ.Number - 1, 0];
+                totalLoss += AllyWinrate[champ.Number - 1, 1];
+            }
+            return totalWins / totalLoss; 
+        }
+        public double GetWinrateAgainst(Champion[] compo)
+        {
+            int totalWins = 0;
+            int totalLoss = 0;
+            foreach (Champion champ in compo)
+            {
+                totalWins += EnemyWinrate[champ.Number - 1, 0];
+                totalLoss += EnemyWinrate[champ.Number - 1, 1];
+            }
+            return totalWins / totalLoss;
+        }
+        public double GetWinrate(Champion[] alliedComp, Champion[] enemyComp)
+        {
+            return (GetWinrateWith(alliedComp) + GetWinrateAgainst(enemyComp) + GetWinrate())/3;
+        }
+        #endregion
 
         #region Methodes de gestion des winrates
         public void WinWith(Champion[] compo)
