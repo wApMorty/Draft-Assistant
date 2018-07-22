@@ -199,7 +199,11 @@ namespace Draft_Assistant
                 totalWins += AllyWinrate[champ.Number - 1, 0];
                 totalLoss += AllyWinrate[champ.Number - 1, 1];
             }
-            return totalWins / totalLoss; 
+            if (totalWins + totalLoss == 0)
+            {
+                return 0;
+            }
+            return totalWins / (totalLoss + totalWins); 
         }
         public double GetWinrateAgainst(List<Champion> compo)
         {
@@ -210,7 +214,11 @@ namespace Draft_Assistant
                 totalWins += EnemyWinrate[champ.Number - 1, 0];
                 totalLoss += EnemyWinrate[champ.Number - 1, 1];
             }
-            return totalWins / totalLoss;
+            if (totalWins + totalLoss == 0)
+            {
+                return 0;
+            }
+            return totalWins / (totalLoss + totalWins);
         }
         public double GetWinrate(List<Champion> alliedComp, List<Champion> enemyComp)
         {
