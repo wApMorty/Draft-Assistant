@@ -63,9 +63,6 @@ namespace Draft_Assistant
                 {
                     winComp[i].WinWith(winComp);
                     winComp[i].WinAgainst(loseComp);
-                }
-                for (int i = 0; i < loseComp.Length; i++)
-                {
                     loseComp[i].LoseAgainst(winComp);
                     loseComp[i].LoseWith(loseComp);
                 }
