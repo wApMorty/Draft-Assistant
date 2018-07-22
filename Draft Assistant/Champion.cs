@@ -162,18 +162,20 @@ namespace Draft_Assistant
             }
         }
         #endregion
-        public double[] AllyWinrate;
-        public double[] EnemyWinrate;
+        public int[,] AllyWinrate;
+        public int[,] EnemyWinrate;
 
         public Champion(string n)
         {
             this.Name = n;
-            AllyWinrate = new double[141];
-            EnemyWinrate = new double[141];
+            AllyWinrate = new int[141,2];
+            EnemyWinrate = new int[141,2];
             for (int i = 0; i<141; i++)
             {
-                AllyWinrate[i] = 0;
-                EnemyWinrate[i] = 0;
+                AllyWinrate[i,0] = 0;
+                EnemyWinrate[i,0] = 0;
+                AllyWinrate[i,1] = 0;
+                EnemyWinrate[i,1] = 0;
             }
         }
 
@@ -181,6 +183,49 @@ namespace Draft_Assistant
         {
             return this.Name;
         }
+
+        public double GetWinrate()
+        {
+            int totalWins = 0;
+            int totalLoss = 0;
+            for (int i = 0; i < AllyWinrate.Length; i++) //Compteur de wins/loss
+            {
+                totalWins += AllyWinrate[i, 0] + EnemyWinrate[i, 0];
+                totalLoss += AllyWinrate[i, 1] + EnemyWinrate[i, 1];
+            }
+            return totalWins / totalLoss;
+        }
+
+        #region Methodes de gestion des winrates
+        public void WinWith(Champion[] compo)
+        {
+            foreach (Champion champ in compo)
+            {
+                this.AllyWinrate[champ.Number - 1, 0] += 1;
+            }
+        }
+        public void WinAgainst(Champion[] compo)
+        {
+            foreach (Champion champ in compo)
+            {
+                this.EnemyWinrate[champ.Number - 1, 0] += 1;
+            }
+        }
+        public void LoseWith(Champion[] compo)
+        {
+            foreach (Champion champ in compo)
+            {
+                this.AllyWinrate[champ.Number - 1, 1] += 1;
+            }
+        }
+        public void LoseAgainst(Champion[] compo)
+        {
+            foreach (Champion champ in compo)
+            {
+                this.EnemyWinrate[champ.Number - 1, 1] += 1;
+            }
+        }
+        #endregion
 
     }
 }
