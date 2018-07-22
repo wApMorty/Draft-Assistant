@@ -11,7 +11,7 @@ namespace Draft_Assistant
         static void Main(string[] args)
         {
 
-            Initializer.Initialize();
+            Menus.HomeMenu();
 
         }
     }

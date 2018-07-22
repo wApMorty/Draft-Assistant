@@ -187,14 +187,7 @@ namespace Draft_Assistant
         #region Methodes de calcul des winrates
         public double GetWinrate()
         {
-            int totalWins = 0;
-            int totalLoss = 0;
-            for (int i = 0; i < AllyWinrate.Length; i++) //Compteur de wins/loss
-            {
-                totalWins += AllyWinrate[i, 0] + EnemyWinrate[i, 0];
-                totalLoss += AllyWinrate[i, 1] + EnemyWinrate[i, 1];
-            }
-            return totalWins / totalLoss;
+            return AllyWinrate[this.Number - 1, 0] / (AllyWinrate[this.Number - 1, 0] + AllyWinrate[this.Number - 1, 1]);
         }
 
         public double GetWinrateWith(Champion[] compo)
