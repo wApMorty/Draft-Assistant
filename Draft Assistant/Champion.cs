@@ -187,6 +187,10 @@ namespace Draft_Assistant
         #region Methodes de calcul des winrates
         public double GetWinrate()
         {
+            if ((AllyWinrate[this.Number - 1, 0] + AllyWinrate[this.Number - 1, 1] == 0))
+            {
+                return 0;
+            }
             return AllyWinrate[this.Number - 1, 0] / (AllyWinrate[this.Number - 1, 0] + AllyWinrate[this.Number - 1, 1]);
         }
 

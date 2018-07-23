@@ -106,7 +106,8 @@ namespace Draft_Assistant
                     playableChamps.Reverse();
                     Console.WriteLine("Pour l'instant, le meilleur pick serait : " + playableChamps[0]);
                     Console.WriteLine("Qu'avez-vous pick ?");
-                    Champion allie1 = playableChamps.SingleOrDefault(item => item.Name == Console.ReadLine());
+                    string pick = Console.ReadLine();
+                    Champion allie1 = playableChamps.SingleOrDefault(item => item.Name == pick);
                     compoAlliee.Add(allie1);
                     playableChamps.Remove(allie1);
                     Console.WriteLine("Quels sont les picks adverses ?");
