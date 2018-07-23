@@ -155,7 +155,7 @@ namespace Draft_Assistant
                     case "Zed": return 137;
                     case "Ziggs": return 138;
                     case "Zilean": return 139;
-                    case "Zoé": return 140;
+                    case "Zoe": return 140;
                     case "Zyra": return 141;
                     default: return 999;
                 }
