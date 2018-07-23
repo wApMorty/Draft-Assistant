@@ -153,7 +153,7 @@ namespace Draft_Assistant
             Champion zed = new Champion("Zed");
             Champion ziggs = new Champion("Ziggs");
             Champion zilean = new Champion("Zilean");
-            Champion zoe = new Champion("Zoé");
+            Champion zoe = new Champion("Zoe");
             Champion zyra = new Champion("Zyra");
             #endregion
 
