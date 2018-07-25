@@ -162,7 +162,7 @@ namespace Draft_Assistant
             anivia, annie, ashe, aurelion_sol, azir, bard, blitzcrank,
             brand, braum, caitlyn, camille, cassiopeia, cho_gath, corki,
             darius, diana, dr_mundo, draven, ekko, elise, evelynn, ezreal,
-            fiddlesticks, fiora, fizz, galio, gangplank, garen, gnar, gragas,
+            fiddlesticks, fiora, fizz, galio, gangplank, garen, gnar, gragas, graves,
             hecarim, heimerdinger, illaoi, irelia, ivern, janna, jarvan_iv,
             jax, jayce, jhin, jinx, kai_sa, kalista, karma, karthus, kassadin,
             katarina, kayle, kayn, kennen, kha_zix, kindred, kled, kog_maw,

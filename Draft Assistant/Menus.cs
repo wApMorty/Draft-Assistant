@@ -20,6 +20,7 @@ namespace Draft_Assistant
             Console.WriteLine("0. Reinitialiser toutes les donnees !");
             Console.WriteLine("1. Saisir les résultats des derniers matchs LCS !");
             Console.WriteLine("2. Faire une draft !");
+            Console.WriteLine("3. DEBUG MODE");
             int input = int.Parse(Console.ReadLine());
             switch (input)
             {
@@ -30,6 +31,8 @@ namespace Draft_Assistant
                 case 1: InputData();
                     break;
                 case 2: Draft();
+                    break;
+                case 3: Debug();
                     break;
                 default: HomeMenu();
                     break;
@@ -46,29 +49,38 @@ namespace Draft_Assistant
             string input = Console.ReadLine();
             while (input != "x")
             {
-                string[] splitChampions = input.Split(',');
-                string[] winningComp = { splitChampions[0], splitChampions[1], splitChampions[2], splitChampions[3], splitChampions[4] };
-                string[] losingComp = { splitChampions[5], splitChampions[6], splitChampions[7], splitChampions[8], splitChampions[9] };
-                Champion champion1 = champions.SingleOrDefault(item => item.Name == winningComp[0]);
-                Champion champion2 = champions.SingleOrDefault(item => item.Name == winningComp[1]);
-                Champion champion3 = champions.SingleOrDefault(item => item.Name == winningComp[2]);
-                Champion champion4 = champions.SingleOrDefault(item => item.Name == winningComp[3]);
-                Champion champion5 = champions.SingleOrDefault(item => item.Name == winningComp[4]);
-                Champion champion6 = champions.SingleOrDefault(item => item.Name == losingComp[0]);
-                Champion champion7 = champions.SingleOrDefault(item => item.Name == losingComp[1]);
-                Champion champion8 = champions.SingleOrDefault(item => item.Name == losingComp[2]);
-                Champion champion9 = champions.SingleOrDefault(item => item.Name == losingComp[3]);
-                Champion champion10 = champions.SingleOrDefault(item => item.Name == losingComp[4]);
-                Champion[] winComp = { champion1, champion2, champion3, champion4, champion5 };
-                Champion[] loseComp = { champion6, champion7, champion8, champion9, champion10 };
-                for (int i = 0; i<winComp.Length; i++)
+                try
                 {
-                    winComp[i].WinWith(winComp);
-                    winComp[i].WinAgainst(loseComp);
-                    loseComp[i].LoseAgainst(winComp);
-                    loseComp[i].LoseWith(loseComp);
+                    string[] splitChampions = input.Split(',');
+                    string[] winningComp = { splitChampions[0], splitChampions[1], splitChampions[2], splitChampions[3], splitChampions[4] };
+                    string[] losingComp = { splitChampions[5], splitChampions[6], splitChampions[7], splitChampions[8], splitChampions[9] };
+                    Champion champion1 = champions.SingleOrDefault(item => item.Name == winningComp[0]);
+                    Champion champion2 = champions.SingleOrDefault(item => item.Name == winningComp[1]);
+                    Champion champion3 = champions.SingleOrDefault(item => item.Name == winningComp[2]);
+                    Champion champion4 = champions.SingleOrDefault(item => item.Name == winningComp[3]);
+                    Champion champion5 = champions.SingleOrDefault(item => item.Name == winningComp[4]);
+                    Champion champion6 = champions.SingleOrDefault(item => item.Name == losingComp[0]);
+                    Champion champion7 = champions.SingleOrDefault(item => item.Name == losingComp[1]);
+                    Champion champion8 = champions.SingleOrDefault(item => item.Name == losingComp[2]);
+                    Champion champion9 = champions.SingleOrDefault(item => item.Name == losingComp[3]);
+                    Champion champion10 = champions.SingleOrDefault(item => item.Name == losingComp[4]);
+                    Champion[] winComp = { champion1, champion2, champion3, champion4, champion5 };
+                    Champion[] loseComp = { champion6, champion7, champion8, champion9, champion10 };
+                    for (int i = 0; i < winComp.Length; i++)
+                    {
+                        winComp[i].WinWith(winComp);
+                        winComp[i].WinAgainst(loseComp);
+                        loseComp[i].LoseAgainst(winComp);
+                        loseComp[i].LoseWith(loseComp);
+                    }
+                    input = Console.ReadLine();
                 }
-                input = Console.ReadLine();
+                catch (Exception e)
+                {
+                    Console.WriteLine("Je n'ai pas très bien compris ...");
+                    input = Console.ReadLine();
+                    throw;
+                }
             }
             Console.Clear();
             Console.WriteLine("Enregistrement des modifications en cours");
@@ -197,6 +209,48 @@ namespace Draft_Assistant
                     HomeMenu();
                     break;
             }
+        }
+
+        public static void Debug()
+        {
+            Console.Clear();
+            string input = Console.ReadLine();
+            while (input != "x")
+            {
+                Champion[] champions = JsonConvert.DeserializeObject<Champion[]>(File.ReadAllText(@"D:\Paul\Documents\Visual Studio workspace\Draft Assistant 3rd try\Draft Assistant\Draft Assistant\Database.JSON"));
+                string[] splitChampions = input.Split(',');
+                string[] winningComp = { splitChampions[0], splitChampions[1], splitChampions[2], splitChampions[3], splitChampions[4] };
+                string[] losingComp = { splitChampions[5], splitChampions[6], splitChampions[7], splitChampions[8], splitChampions[9] };
+                Champion champion1 = champions.SingleOrDefault(item => item.Name == winningComp[0]);
+                Champion champion2 = champions.SingleOrDefault(item => item.Name == winningComp[1]);
+                Champion champion3 = champions.SingleOrDefault(item => item.Name == winningComp[2]);
+                Champion champion4 = champions.SingleOrDefault(item => item.Name == winningComp[3]);
+                Champion champion5 = champions.SingleOrDefault(item => item.Name == winningComp[4]);
+                Champion champion6 = champions.SingleOrDefault(item => item.Name == losingComp[0]);
+                Champion champion7 = champions.SingleOrDefault(item => item.Name == losingComp[1]);
+                Champion champion8 = champions.SingleOrDefault(item => item.Name == losingComp[2]);
+                Champion champion9 = champions.SingleOrDefault(item => item.Name == losingComp[3]);
+                Champion champion10 = champions.SingleOrDefault(item => item.Name == losingComp[4]);
+                Champion[] winComp = { champion1, champion2, champion3, champion4, champion5 };
+                Champion[] loseComp = { champion6, champion7, champion8, champion9, champion10 };
+                for (int i = 0; i < winComp.Length; i++)
+                {
+                    winComp[i].WinWith(winComp);
+                    winComp[i].WinAgainst(loseComp);
+                    loseComp[i].LoseAgainst(winComp);
+                    loseComp[i].LoseWith(loseComp);
+                }
+                Console.WriteLine("Enregistrement des modifications en cours");
+                File.WriteAllText(@"D:\Paul\Documents\Visual Studio workspace\Draft Assistant 3rd try\Draft Assistant\Draft Assistant\Database.JSON",
+        JsonConvert.SerializeObject(champions));
+                Console.Clear();
+                Console.WriteLine("Enregistrement OK !");
+                input = Console.ReadLine();
+
+            }
+
+            HomeMenu();
+
         }
 
     }
