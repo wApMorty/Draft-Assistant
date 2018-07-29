@@ -179,10 +179,7 @@ namespace Draft_Assistant
             }
         }
 
-        public override string ToString()
-        {
-            return this.Name;
-        }
+        public override string ToString() => this.Name;
 
         #region Methodes de calcul des winrates
         public double GetWinrate()
