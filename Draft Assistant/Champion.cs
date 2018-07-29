@@ -187,7 +187,7 @@ namespace Draft_Assistant
         #region Methodes de calcul des winrates
         public double GetWinrate()
         {
-            if ((AllyWinrate[this.Number - 1, 0] + AllyWinrate[this.Number - 1, 1] == 0))
+            if ((AllyWinrate[this.Number - 1, 0] + AllyWinrate[this.Number - 1, 1] < 5))
             {
                 return 0;
             }
@@ -203,7 +203,7 @@ namespace Draft_Assistant
                 totalWins += AllyWinrate[champ.Number - 1, 0];
                 totalLoss += AllyWinrate[champ.Number - 1, 1];
             }
-            if (totalWins + totalLoss == 0)
+            if (totalWins + totalLoss < 5)
             {
                 return 0;
             }
@@ -218,7 +218,7 @@ namespace Draft_Assistant
                 totalWins += EnemyWinrate[champ.Number - 1, 0];
                 totalLoss += EnemyWinrate[champ.Number - 1, 1];
             }
-            if (totalWins + totalLoss == 0)
+            if (totalWins + totalLoss < 5)
             {
                 return 0;
             }
