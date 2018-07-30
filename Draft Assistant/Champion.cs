@@ -189,7 +189,7 @@ namespace Draft_Assistant
             return AllyWinrate[this.Number - 1, 0] / (AllyWinrate[this.Number - 1, 0] + AllyWinrate[this.Number - 1, 1]);
         }
 
-        public double GetWinrateWith(List<Champion> compo)
+        public double GetWinrateWith(Team compo)
         {
             int totalWins = 0;
             int totalLoss = 0;
@@ -204,7 +204,7 @@ namespace Draft_Assistant
             }
             return totalWins / (totalLoss + totalWins); 
         }
-        public double GetWinrateAgainst(List<Champion> compo)
+        public double GetWinrateAgainst(Team compo)
         {
             int totalWins = 0;
             int totalLoss = 0;
@@ -219,7 +219,7 @@ namespace Draft_Assistant
             }
             return totalWins / (totalLoss + totalWins);
         }
-        public double GetWinrate(List<Champion> alliedComp, List<Champion> enemyComp)
+        public double GetWinrate(Team alliedComp, Team enemyComp)
         {
             return (GetWinrateWith(alliedComp) + GetWinrateAgainst(enemyComp) + GetWinrate())/3;
         }
