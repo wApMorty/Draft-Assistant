@@ -120,6 +120,7 @@ namespace Draft_Assistant
                     //Pick allié 1
                     playableChamps.Sort((a, b) => -a.GetWinrate().CompareTo(b.GetWinrate()));
                     Console.WriteLine("Pour l'instant, le meilleur pick serait : " + playableChamps[0]);
+                    Console.WriteLine(playableChamps[0].GetWinrate());
                     Console.WriteLine("Qu'avez-vous pick ?");
                     string pick = Console.ReadLine();
                     Champion allie1 = playableChamps.SingleOrDefault(item => item.Name.ToLower() == pick.ToLower());
@@ -137,7 +138,7 @@ namespace Draft_Assistant
                     playableChamps.Remove(ennemi2);
 
                     //Picks alliés 2/3
-                    playableChamps.Sort((a, b) => a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
+                    playableChamps.Sort((a, b) => -a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
                     Console.WriteLine("Dans ces conditions, je vous conseille de pick " + playableChamps[0] + " et " + playableChamps[1]);
                     Console.WriteLine("Qu'avez-vous pick ?");
                     picks = Console.ReadLine().Split(',');
@@ -159,7 +160,7 @@ namespace Draft_Assistant
                     playableChamps.Remove(ennemi4);
 
                     //Picks alliés 4/5
-                    playableChamps.Sort((a, b) => a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
+                    playableChamps.Sort((a, b) => -a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
                     Console.WriteLine("Pour finir, je pense que vous devriez pick " + playableChamps[0] + " et " + playableChamps[1]);
 
                     //Retour au menu principal
@@ -176,7 +177,7 @@ namespace Draft_Assistant
                     playableChamps.Remove(ennemi1);
 
                     //Pick allié 1/2
-                    playableChamps.Sort((a, b) => a.GetWinrateAgainst(compoEnnemie).CompareTo(b.GetWinrateAgainst(compoEnnemie)));
+                    playableChamps.Sort((a, b) => -a.GetWinrateAgainst(compoEnnemie).CompareTo(b.GetWinrateAgainst(compoEnnemie)));
                     Console.WriteLine("Dans ces conditions, je vous conseille de pick " + playableChamps[0] + " et " + playableChamps[1]);
                     Console.WriteLine("Qu'avez-vous pick ?");
                     picks = Console.ReadLine().Split(',');
@@ -198,7 +199,7 @@ namespace Draft_Assistant
                     playableChamps.Remove(ennemi3);
 
                     //Picks alliés 3/4
-                    playableChamps.Sort((a, b) => a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
+                    playableChamps.Sort((a, b) => -a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
                     Console.WriteLine("Dans ces conditions, je vous conseille de pick " + playableChamps[0] + " et " + playableChamps[1]);
                     Console.WriteLine("Qu'avez-vous pick ?");
                     picks = Console.ReadLine().Split(',');
@@ -220,7 +221,7 @@ namespace Draft_Assistant
                     playableChamps.Remove(ennemi5);
 
                     //Pick allié 5
-                    playableChamps.Sort((a, b) => a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
+                    playableChamps.Sort((a, b) => -a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
                     Console.WriteLine("Dans ces conditions, je vous conseille de pick " + playableChamps[0]);
 
                     Thread.Sleep(TimeSpan.FromSeconds(20));

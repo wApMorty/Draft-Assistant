@@ -160,14 +160,14 @@ namespace Draft_Assistant
                 }
             }
         }
-        public int[,] AllyWinrate; //Format [Win avec, Lose avec] pour chaque champion
-        public int[,] EnemyWinrate; //Format [Win contre, Lose contre] pour chaque champion
+        public double[,] AllyWinrate; //Format [Win avec, Lose avec] pour chaque champion
+        public double[,] EnemyWinrate; //Format [Win contre, Lose contre] pour chaque champion
 
         public Champion(string n)
         {
             this.Name = n;
-            AllyWinrate = new int[141,2];
-            EnemyWinrate = new int[141,2];
+            AllyWinrate = new double[141,2];
+            EnemyWinrate = new double[141,2];
             for (int i = 0; i<141; i++)
             {
                 AllyWinrate[i,0] = 0;
@@ -182,6 +182,7 @@ namespace Draft_Assistant
         #region Methodes de calcul des winrates
         public double GetWinrate()
         {
+
             if ((AllyWinrate[this.Number - 1, 0] + AllyWinrate[this.Number - 1, 1] < 10))
             {
                 return 0;
@@ -191,8 +192,8 @@ namespace Draft_Assistant
 
         public double GetWinrateWith(Team compo)
         {
-            int totalWins = 0;
-            int totalLoss = 0;
+            double totalWins = 0;
+            double totalLoss = 0;
             foreach (Champion champ in compo)
             {
                 totalWins += AllyWinrate[champ.Number - 1, 0];
@@ -206,8 +207,8 @@ namespace Draft_Assistant
         }
         public double GetWinrateAgainst(Team compo)
         {
-            int totalWins = 0;
-            int totalLoss = 0;
+            double totalWins = 0;
+            double totalLoss = 0;
             foreach (Champion champ in compo)
             {
                 totalWins += EnemyWinrate[champ.Number - 1, 0];
