@@ -10,7 +10,6 @@ namespace Draft_Assistant
     {
 
         public string Name { get; set; }
-        #region Link Name -> ID
         public int Number {
             get
             {
@@ -161,9 +160,8 @@ namespace Draft_Assistant
                 }
             }
         }
-        #endregion
-        public int[,] AllyWinrate;
-        public int[,] EnemyWinrate;
+        public int[,] AllyWinrate; //Format [Win avec, Lose avec] pour chaque champion
+        public int[,] EnemyWinrate; //Format [Win contre, Lose contre] pour chaque champion
 
         public Champion(string n)
         {
@@ -184,7 +182,7 @@ namespace Draft_Assistant
         #region Methodes de calcul des winrates
         public double GetWinrate()
         {
-            if ((AllyWinrate[this.Number - 1, 0] + AllyWinrate[this.Number - 1, 1] < 5))
+            if ((AllyWinrate[this.Number - 1, 0] + AllyWinrate[this.Number - 1, 1] < 10))
             {
                 return 0;
             }
@@ -200,7 +198,7 @@ namespace Draft_Assistant
                 totalWins += AllyWinrate[champ.Number - 1, 0];
                 totalLoss += AllyWinrate[champ.Number - 1, 1];
             }
-            if (totalWins + totalLoss < 5)
+            if (totalWins + totalLoss < 10)
             {
                 return 0;
             }
@@ -215,7 +213,7 @@ namespace Draft_Assistant
                 totalWins += EnemyWinrate[champ.Number - 1, 0];
                 totalLoss += EnemyWinrate[champ.Number - 1, 1];
             }
-            if (totalWins + totalLoss < 5)
+            if (totalWins + totalLoss < 10)
             {
                 return 0;
             }
@@ -228,28 +226,28 @@ namespace Draft_Assistant
         #endregion
 
         #region Methodes de gestion des winrates
-        public void WinWith(Champion[] compo)
+        public void WinWith(Team compo)
         {
             foreach (Champion champ in compo)
             {
                 this.AllyWinrate[champ.Number - 1, 0] += 1;
             }
         }
-        public void WinAgainst(Champion[] compo)
+        public void WinAgainst(Team compo)
         {
             foreach (Champion champ in compo)
             {
                 this.EnemyWinrate[champ.Number - 1, 0] += 1;
             }
         }
-        public void LoseWith(Champion[] compo)
+        public void LoseWith(Team compo)
         {
             foreach (Champion champ in compo)
             {
                 this.AllyWinrate[champ.Number - 1, 1] += 1;
             }
         }
-        public void LoseAgainst(Champion[] compo)
+        public void LoseAgainst(Team compo)
         {
             foreach (Champion champ in compo)
             {

@@ -12,6 +12,7 @@ namespace Draft_Assistant
     static class Menus
     {
 
+        //Menu principal
         public static void HomeMenu()
         {
             Console.Clear();
@@ -39,6 +40,7 @@ namespace Draft_Assistant
             }
         }
 
+        //Saisie massive de stats
         public static void InputData()
         {
             Console.Clear();
@@ -47,27 +49,37 @@ namespace Draft_Assistant
             Console.WriteLine("Synthaxe : Ecrivez le nom francais des champions, et séparez par une virgule, sans espace");
             Console.WriteLine("Une fois que vous aurez fini, appuyez sur x pour retourner au menu principal");
             string input = Console.ReadLine();
+
             while (input != "x")
             {
-                try
+                string[] splitChampions = input.Split(',');
+                Team winComp = new Team();
+                Team loseComp = new Team();
+                
+                //Remplissage des équipes
+                for (int i = 0; i < 5; i++)
                 {
-                    string[] splitChampions = input.Split(',');
-                    Team winComp = new Team();
-                    Team loseComp = new Team();
-                    for (int i = 0; i < 5; i++)
-                    {
-                        winComp.Add(champions.SingleOrDefault(item => item.Name == splitChampions[i]));
-                        loseComp.Add(champions.SingleOrDefault(item => item.Name == splitChampions[i] + 5));
-                    }
-                    input = Console.ReadLine();
+                    winComp.Add(champions.SingleOrDefault(item => item.Name == splitChampions[i]));
+                    loseComp.Add(champions.SingleOrDefault(item => item.Name == splitChampions[i+5]));
                 }
-                catch (Exception e)
+
+                //Modification des stats
+                //Equipe gagnante
+                foreach (Champion c in winComp)
                 {
-                    Console.WriteLine("Je n'ai pas très bien compris ...");
-                    input = Console.ReadLine();
-                    throw;
+                    c.WinWith(winComp);
+                    c.WinAgainst(loseComp);
                 }
+
+                //Equipe perdante
+                foreach (Champion c in loseComp)
+                {
+                    c.LoseAgainst(winComp);
+                    c.LoseWith(loseComp);
+                }
+                input = Console.ReadLine();
             }
+
             Console.Clear();
             Console.WriteLine("Enregistrement des modifications en cours");
             File.WriteAllText(@"D:\Paul\Documents\Visual Studio workspace\Draft Assistant 3rd try\Draft Assistant\Draft Assistant\Database.JSON",
@@ -78,6 +90,7 @@ namespace Draft_Assistant
             HomeMenu();
         }
 
+        //Simulation de draft
         public static void Draft()
         {
             Console.Clear();
@@ -98,19 +111,22 @@ namespace Draft_Assistant
             {
                 playableChamps.Remove(champions.SingleOrDefault(item => item.Name == banList[i])); 
             }
-            List<Champion> compoAlliee = new List<Champion>();
-            List<Champion> compoEnnemie = new List<Champion>();
             #endregion
+            Team compoAlliee = new Team();
+            Team compoEnnemie = new Team();
             switch (input)
             {
                 case 1:
-                    playableChamps.Sort((a, b) => a.GetWinrate().CompareTo(b.GetWinrate()));
+                    //Pick allié 1
+                    playableChamps.Sort((a, b) => -a.GetWinrate().CompareTo(b.GetWinrate()));
                     Console.WriteLine("Pour l'instant, le meilleur pick serait : " + playableChamps[0]);
                     Console.WriteLine("Qu'avez-vous pick ?");
                     string pick = Console.ReadLine();
                     Champion allie1 = playableChamps.SingleOrDefault(item => item.Name.ToLower() == pick.ToLower());
                     compoAlliee.Add(allie1);
                     playableChamps.Remove(allie1);
+
+                    //Picks adverses 1/2
                     Console.WriteLine("Quels sont les picks adverses ?");
                     string[] picks = Console.ReadLine().Split(',');
                     Champion ennemi1 = playableChamps.SingleOrDefault(item => item.Name.ToLower() == picks[0].ToLower());
@@ -119,6 +135,8 @@ namespace Draft_Assistant
                     compoEnnemie.Add(ennemi2);
                     playableChamps.Remove(ennemi1);
                     playableChamps.Remove(ennemi2);
+
+                    //Picks alliés 2/3
                     playableChamps.Sort((a, b) => -a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
                     Console.WriteLine("Dans ces conditions, je vous conseille de pick " + playableChamps[0] + " et " + playableChamps[1]);
                     Console.WriteLine("Qu'avez-vous pick ?");
@@ -129,6 +147,8 @@ namespace Draft_Assistant
                     compoAlliee.Add(allie3);
                     playableChamps.Remove(allie2);
                     playableChamps.Remove(allie3);
+
+                    //Pick adverses 3/4
                     Console.WriteLine("Quels sont les picks adverses ?");
                     picks = Console.ReadLine().Split(',');
                     Champion ennemi3 = playableChamps.SingleOrDefault(item => item.Name.ToLower() == picks[0].ToLower());
@@ -137,17 +157,25 @@ namespace Draft_Assistant
                     compoEnnemie.Add(ennemi4);
                     playableChamps.Remove(ennemi3);
                     playableChamps.Remove(ennemi4);
+
+                    //Picks alliés 4/5
                     playableChamps.Sort((a, b) => -a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
                     Console.WriteLine("Pour finir, je pense que vous devriez pick " + playableChamps[0] + " et " + playableChamps[1]);
+
+                    //Retour au menu principal
                     Thread.Sleep(TimeSpan.FromSeconds(20));
                     HomeMenu();
                     break;
+
                 case 2:
+                    //Pick adverse 1
                     Console.WriteLine("Quel est le premier pick adverse ?");
                     pick = Console.ReadLine();
                     ennemi1 = playableChamps.SingleOrDefault(item => item.Name.ToLower() == pick.ToLower());
                     compoEnnemie.Add(ennemi1);
                     playableChamps.Remove(ennemi1);
+
+                    //Pick allié 1/2
                     playableChamps.Sort((a, b) => a.GetWinrateAgainst(compoEnnemie).CompareTo(b.GetWinrateAgainst(compoEnnemie)));
                     Console.WriteLine("Dans ces conditions, je vous conseille de pick " + playableChamps[0] + " et " + playableChamps[1]);
                     Console.WriteLine("Qu'avez-vous pick ?");
@@ -158,6 +186,8 @@ namespace Draft_Assistant
                     compoAlliee.Add(allie2);
                     playableChamps.Remove(allie1);
                     playableChamps.Remove(allie2);
+
+                    //Picks adverses 2/3
                     Console.WriteLine("Quels sont les picks adverses ?");
                     picks = Console.ReadLine().Split(',');
                     ennemi2 = playableChamps.SingleOrDefault(item => item.Name.ToLower() == picks[0].ToLower());
@@ -166,6 +196,8 @@ namespace Draft_Assistant
                     compoEnnemie.Add(ennemi3);
                     playableChamps.Remove(ennemi2);
                     playableChamps.Remove(ennemi3);
+
+                    //Picks alliés 3/4
                     playableChamps.Sort((a, b) => a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
                     Console.WriteLine("Dans ces conditions, je vous conseille de pick " + playableChamps[0] + " et " + playableChamps[1]);
                     Console.WriteLine("Qu'avez-vous pick ?");
@@ -176,6 +208,8 @@ namespace Draft_Assistant
                     compoAlliee.Add(allie4);
                     playableChamps.Remove(allie3);
                     playableChamps.Remove(allie4);
+
+                    //Picks adverses 4/5
                     Console.WriteLine("Quels sont les picks adverses ?");
                     picks = Console.ReadLine().Split(',');
                     ennemi4 = playableChamps.SingleOrDefault(item => item.Name.ToLower() == picks[0].ToLower());
@@ -184,14 +218,18 @@ namespace Draft_Assistant
                     compoEnnemie.Add(ennemi5);
                     playableChamps.Remove(ennemi4);
                     playableChamps.Remove(ennemi5);
+
+                    //Pick allié 5
                     playableChamps.Sort((a, b) => a.GetWinrate(compoAlliee, compoEnnemie).CompareTo(b.GetWinrate(compoAlliee, compoEnnemie)));
                     Console.WriteLine("Dans ces conditions, je vous conseille de pick " + playableChamps[0]);
+
                     Thread.Sleep(TimeSpan.FromSeconds(20));
                     HomeMenu();
                     break;
             }
         }
 
+        //Saisie des games une par une
         public static void Debug()
         {
             Console.Clear();
@@ -200,20 +238,16 @@ namespace Draft_Assistant
             {
                 Champion[] champions = JsonConvert.DeserializeObject<Champion[]>(File.ReadAllText(@"D:\Paul\Documents\Visual Studio workspace\Draft Assistant 3rd try\Draft Assistant\Draft Assistant\Database.JSON"));
                 string[] splitChampions = input.Split(',');
-                string[] winningComp = { splitChampions[0], splitChampions[1], splitChampions[2], splitChampions[3], splitChampions[4] };
-                string[] losingComp = { splitChampions[5], splitChampions[6], splitChampions[7], splitChampions[8], splitChampions[9] };
-                Champion champion1 = champions.SingleOrDefault(item => item.Name == winningComp[0]);
-                Champion champion2 = champions.SingleOrDefault(item => item.Name == winningComp[1]);
-                Champion champion3 = champions.SingleOrDefault(item => item.Name == winningComp[2]);
-                Champion champion4 = champions.SingleOrDefault(item => item.Name == winningComp[3]);
-                Champion champion5 = champions.SingleOrDefault(item => item.Name == winningComp[4]);
-                Champion champion6 = champions.SingleOrDefault(item => item.Name == losingComp[0]);
-                Champion champion7 = champions.SingleOrDefault(item => item.Name == losingComp[1]);
-                Champion champion8 = champions.SingleOrDefault(item => item.Name == losingComp[2]);
-                Champion champion9 = champions.SingleOrDefault(item => item.Name == losingComp[3]);
-                Champion champion10 = champions.SingleOrDefault(item => item.Name == losingComp[4]);
-                Champion[] winComp = { champion1, champion2, champion3, champion4, champion5 };
-                Champion[] loseComp = { champion6, champion7, champion8, champion9, champion10 };
+                Team winComp = new Team ();
+                Team loseComp = new Team ();
+                //Remplissage des equipes gagnantes et perdantes
+                for (int i = 0; i < 5; i++)
+                {
+                    winComp.Add(champions.SingleOrDefault(item => item.Name == splitChampions[i]));
+                    loseComp.Add(champions.SingleOrDefault(item => item.Name == splitChampions[i+5]));
+                }
+
+                //Modifications des stats en fonction des compos gagnantes et perdantes
                 for (int i = 0; i < winComp.Length; i++)
                 {
                     winComp[i].WinWith(winComp);
@@ -221,13 +255,13 @@ namespace Draft_Assistant
                     loseComp[i].LoseAgainst(winComp);
                     loseComp[i].LoseWith(loseComp);
                 }
+
                 Console.WriteLine("Enregistrement des modifications en cours");
                 File.WriteAllText(@"D:\Paul\Documents\Visual Studio workspace\Draft Assistant 3rd try\Draft Assistant\Draft Assistant\Database.JSON",
         JsonConvert.SerializeObject(champions));
                 Console.Clear();
                 Console.WriteLine("Enregistrement OK !");
                 input = Console.ReadLine();
-
             }
 
             HomeMenu();
