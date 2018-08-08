@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Draft_Assistant
 {
@@ -10,8 +11,10 @@ namespace Draft_Assistant
     {
         static void Main(string[] args)
         {
-
-            Menus.HomeMenu();
+            UserInterface MainMenu = new UserInterface();
+            Window w = new Window();
+            w.Content = MainMenu;
+            w.Show();
 
         }
     }
