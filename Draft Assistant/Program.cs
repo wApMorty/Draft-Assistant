@@ -11,10 +11,8 @@ namespace Draft_Assistant
     {
         static void Main(string[] args)
         {
-            UserInterface MainMenu = new UserInterface();
-            Window w = new Window();
-            w.Content = MainMenu;
-            w.Show();
+
+            Menus.HomeMenu();
 
         }
     }

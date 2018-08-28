@@ -21,7 +21,7 @@ namespace Draft_Assistant
             Console.WriteLine("0. Reinitialiser toutes les donnees !");
             Console.WriteLine("1. Saisir les résultats des derniers matchs LCS !");
             Console.WriteLine("2. Faire une draft !");
-            Console.WriteLine("3. DEBUG MODE");
+            Console.WriteLine("3. Settings");
             int input = int.Parse(Console.ReadLine());
             switch (input)
             {
@@ -33,7 +33,7 @@ namespace Draft_Assistant
                     break;
                 case 2: Draft();
                     break;
-                case 3: Debug();
+                case 3: Settings();
                     break;
                 default: HomeMenu();
                     break;
@@ -44,7 +44,7 @@ namespace Draft_Assistant
         public static void InputData()
         {
             Console.Clear();
-            Champion[] champions = JsonConvert.DeserializeObject<Champion[]>(File.ReadAllText(@"D:\Paul\Documents\Visual Studio workspace\Draft Assistant 3rd try\Draft Assistant\Draft Assistant\Database.JSON"));
+            Champion[] champions = JsonConvert.DeserializeObject<Champion[]>(File.ReadAllText(Properties.Settings.Default.DataPath));
             Console.WriteLine("Saisissez les dernieres compos de matchs LCS, en commencant par l'equipe qui a gagné !");
             Console.WriteLine("Synthaxe : Ecrivez le nom francais des champions, et séparez par une virgule, sans espace");
             Console.WriteLine("Une fois que vous aurez fini, appuyez sur x pour retourner au menu principal");
@@ -82,8 +82,7 @@ namespace Draft_Assistant
 
             Console.Clear();
             Console.WriteLine("Enregistrement des modifications en cours");
-            File.WriteAllText(@"D:\Paul\Documents\Visual Studio workspace\Draft Assistant 3rd try\Draft Assistant\Draft Assistant\Database.JSON",
-    JsonConvert.SerializeObject(champions));
+            File.WriteAllText(Properties.Settings.Default.DataPath, JsonConvert.SerializeObject(champions));
             Console.Clear();
             Console.WriteLine("Enregistrement terminé !");
             Thread.Sleep(2000);
@@ -94,7 +93,7 @@ namespace Draft_Assistant
         public static void Draft()
         {
             Console.Clear();
-            Champion[] champions = JsonConvert.DeserializeObject<Champion[]>(File.ReadAllText(@"D:\Paul\Documents\Visual Studio workspace\Draft Assistant 3rd try\Draft Assistant\Draft Assistant\Database.JSON"));
+            Champion[] champions = JsonConvert.DeserializeObject<Champion[]>(File.ReadAllText(Properties.Settings.Default.DataPath));
             Console.WriteLine("Draftez-vous en 1er ou en 2eme ?");
             Console.WriteLine("Sélectionnez 0 pour retourner au menu principal");
             int input = int.Parse(Console.ReadLine());
@@ -230,42 +229,53 @@ namespace Draft_Assistant
             }
         }
 
-        //Saisie des games une par une
-        public static void Debug()
+        //Reglage des paramètres
+        public static void Settings()
         {
             Console.Clear();
-            string input = Console.ReadLine();
-            while (input != "x")
+            Console.WriteLine("Quels paramètres souhaitez-vous modifier ?");
+            Console.WriteLine("1. L'emplacement du fichier de stats (DataPath)");
+            Console.WriteLine("2. L'emplacement du fichier d'historique (HistoryPath)");
+            Console.WriteLine("\n0. Je veux retourner au menu principal !");
+            int mode = int.Parse(Console.ReadLine());
+            switch (mode)
             {
-                Champion[] champions = JsonConvert.DeserializeObject<Champion[]>(File.ReadAllText(@"D:\Paul\Documents\Visual Studio workspace\Draft Assistant 3rd try\Draft Assistant\Draft Assistant\Database.JSON"));
-                string[] splitChampions = input.Split(',');
-                Team winComp = new Team ();
-                Team loseComp = new Team ();
-                //Remplissage des equipes gagnantes et perdantes
-                for (int i = 0; i < 5; i++)
-                {
-                    winComp.Add(champions.SingleOrDefault(item => item.Name == splitChampions[i]));
-                    loseComp.Add(champions.SingleOrDefault(item => item.Name == splitChampions[i+5]));
-                }
+                case 1:
+                    SettingDataPath();
+                    break;
+                case 2:
+                    SettingHistoryPath();
+                    break;
 
-                //Modifications des stats en fonction des compos gagnantes et perdantes
-                for (int i = 0; i < winComp.Length; i++)
-                {
-                    winComp[i].WinWith(winComp);
-                    winComp[i].WinAgainst(loseComp);
-                    loseComp[i].LoseAgainst(winComp);
-                    loseComp[i].LoseWith(loseComp);
-                }
+                default:
+                    break;
 
-                Console.WriteLine("Enregistrement des modifications en cours");
-                File.WriteAllText(@"D:\Paul\Documents\Visual Studio workspace\Draft Assistant 3rd try\Draft Assistant\Draft Assistant\Database.JSON",
-        JsonConvert.SerializeObject(champions));
-                Console.Clear();
-                Console.WriteLine("Enregistrement OK !");
-                input = Console.ReadLine();
             }
 
             HomeMenu();
+
+        }
+
+        public static void SettingDataPath()
+        {
+            Console.Clear();
+            Console.WriteLine("Où voulez-vous enregistrer les stats ?/n");
+            Console.WriteLine("Vos stats sont actuellement enregistrées ici : " + Properties.Settings.Default.DataPath + "\n");
+            string input = Console.ReadLine();
+            Properties.Settings.Default.DataPath = input;
+            Properties.Settings.Default.Save();
+            Settings();
+        }
+
+        public static void SettingHistoryPath()
+        {
+            Console.Clear();
+            Console.WriteLine("Où voulez-vous enregistrer les stats ?/n");
+            Console.WriteLine("Vos stats sont actuellement enregistrées ici : " + Properties.Settings.Default.DataPath + "\n");
+            string input = Console.ReadLine();
+            Properties.Settings.Default.DataPath = input;
+            Properties.Settings.Default.Save();
+            Settings();
 
         }
 
