@@ -259,10 +259,10 @@ namespace Draft_Assistant
         public static void SettingDataPath()
         {
             Console.Clear();
-            Console.WriteLine("Où voulez-vous enregistrer les stats ?/n");
+            Console.WriteLine("Où voulez-vous enregistrer les stats ?\n");
             Console.WriteLine("Vos stats sont actuellement enregistrées ici : " + Properties.Settings.Default.DataPath + "\n");
             string input = Console.ReadLine();
-            Properties.Settings.Default.DataPath = input;
+            Properties.Settings.Default.DataPath = input + @"\Database.JSON";
             Properties.Settings.Default.Save();
             Settings();
         }
@@ -270,10 +270,10 @@ namespace Draft_Assistant
         public static void SettingHistoryPath()
         {
             Console.Clear();
-            Console.WriteLine("Où voulez-vous enregistrer les stats ?/n");
-            Console.WriteLine("Vos stats sont actuellement enregistrées ici : " + Properties.Settings.Default.DataPath + "\n");
+            Console.WriteLine("Où voulez-vous enregistrer les stats ?\n");
+            Console.WriteLine("Vos stats sont actuellement enregistrées ici : " + Properties.Settings.Default.HistoryPath + "\n");
             string input = Console.ReadLine();
-            Properties.Settings.Default.DataPath = input;
+            Properties.Settings.Default.HistoryPath = input + @"History.txt";
             Properties.Settings.Default.Save();
             Settings();
 

@@ -180,8 +180,7 @@ namespace Draft_Assistant
             #endregion
 
             #region Serialization dans un JSON
-            File.WriteAllText(@"D:\Paul\Documents\Visual Studio workspace\Draft Assistant 3rd try\Draft Assistant\Draft Assistant\Database.JSON",
-                JsonConvert.SerializeObject(champions));
+            File.WriteAllText(Properties.Settings.Default.DataPath, JsonConvert.SerializeObject(champions));
             #endregion
         }
 
